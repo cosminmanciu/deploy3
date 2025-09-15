@@ -1,0 +1,15 @@
+# WHMCS Cron Jobs with logging
+# Note: Don't use www-data in the crontab line when installing with crontab -u www-data
+# The user is already specified when installing the crontab
+
+# Run system cron every 5 minutes with logging
+*/5 * * * * /usr/local/bin/php /var/www/html/crons/cron.php >> /var/log/whmcs-cron.log 2>&1
+
+# Daily cron jobs at 00:00 with logging
+0 0 * * * /usr/local/bin/php /var/www/html/crons/cron.php do --DailyCronJob >> /var/log/whmcs-cron-daily.log 2>&1
+
+# Weekly cron jobs on Sunday at 00:00
+0 0 * * 0 /usr/local/bin/php /var/www/html/crons/cron.php do --WeeklyCronJob >> /var/log/whmcs-cron-weekly.log 2>&1
+
+# Monthly cron jobs on the 1st at 00:00  
+0 0 1 * * /usr/local/bin/php /var/www/html/crons/cron.php do --MonthlyCronJob >> /var/log/whmcs-cron-monthly.log 2>&1

@@ -1,0 +1,65 @@
+{
+    "build": {
+        "uuid": "01994c56-0894-738d-bc9a-4d94ce9ea277",
+        "version": 1
+    },
+    "deployment": {
+        "uuid": "01994c56-1e07-71e4-866e-4373ed530da2",
+        "type": "Docker compose",
+        "user_uuid": "01994c3b-e233-7205-900a-a72aabdd72f5",
+        "created_at": "2025-09-15 07:45:36"
+    },
+    "whmcs": {
+        "version": "8.6.2",
+        "admin_uri": "/admin",
+        "environment": "staging",
+        "php_version": "7.4.*",
+        "mysql_version": "8.0",
+        "with_install_directory": false
+    },
+    "docker": {
+        "host_port": 80,
+        "host_ssl_port": 443,
+        "db_name": "whmcs",
+        "db_user": "whmcs",
+        "db_password": "whmcs_password",
+        "db_root_password": "root_password",
+        "admin_username": "admin",
+        "admin_password": "secure_password",
+        "license_key": "your_license_key_here",
+        "timezone": "UTC"
+    },
+    "brand": {
+        "uuid": "01994c3b-dca8-7323-ab07-49d84c7ca054",
+        "name": "Catalyst"
+    },
+    "packages": [
+        {
+            "name": "whmcs/vanilla-8.6.2",
+            "type": "whmcs-core",
+            "location": "/",
+            "version": "*"
+        }
+    ],
+    "environment": {
+        "variables_count": 0,
+        "secrets_count": 14,
+        "variables": [],
+        "secrets": [
+            "DB_HOST",
+            "DB_NAME",
+            "DB_USER",
+            "DB_PASSWORD",
+            "DB_PORT",
+            "SMTP_HOST",
+            "SMTP_PORT",
+            "SMTP_USER",
+            "SMTP_PASSWORD",
+            "SMTP_ENCRYPTION",
+            "SMTP_FROM_EMAIL",
+            "SMTP_FROM_NAME",
+            "LICENSE",
+            "CC_ENCRYPTION_HASH"
+        ]
+    }
+}

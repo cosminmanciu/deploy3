@@ -1,0 +1,55 @@
+services:
+  whmcs:
+    build:
+      context: .
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.1}
+        WHMCS_VERSION: ${WHMCS_VERSION:-8.11.2}
+        ADMIN_URI: ${ADMIN_URI:-admin}
+        ENVIRONMENT: ${ENVIRONMENT:-production}
+    container_name: "${CONTAINER_NAME:-whmcs}"
+    env_file:
+      - .env
+    ports:
+      - "${HOST_PORT:-20080}:80"
+    environment:
+      - DB_HOST=${DB_HOST:-db}
+      - DB_NAME=${DB_NAME:-whmcs}
+      - DB_USER=${DB_USER:-whmcs}
+      - DB_PASSWORD=${DB_PASSWORD:-whmcs_password}
+      - WHMCS_VERSION=${WHMCS_VERSION:-8.11.2}
+      - DEVELOPMENT_MODE=false
+    volumes:
+      # Production: Self-contained with docker volume
+      - whmcs_data:/var/www/html
+      - ./scripts:/scripts:ro
+      - ./settings.json:/var/www/html/../settings.json:ro
+    depends_on:
+      - db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/healthcheck.php"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  db:
+    image: percona/percona-server:8.0
+    container_name: "${CONTAINER_NAME:-whmcs}_db"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-root_password}
+      - MYSQL_DATABASE=${DB_NAME:-whmcs}
+      - MYSQL_USER=${DB_USER:-whmcs}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-whmcs_password}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-23306}:3306"
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  whmcs_data:
+  db_data:

@@ -1,0 +1,34 @@
+{
+    "name": "teamblue/catalyst",
+    "description": "WHMCS Bundle for 01994c56-0894-738d-bc9a-4d94ce9ea277 version 1",
+    "type": "project",
+    "require": {
+        "whmcs/vanilla-8.6.2": "*"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packeton.teamblue-ops.net",
+            "options": {
+                "ssl": {
+                    "verify_peer": false,
+                    "verify_peer_name": false
+                }
+            }
+        }
+    ],
+    "config": {
+        "vendor-dir": "vendor",
+        "secure-http": true,
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "whmcs": {
+            "admin_uri": "/admin"
+        }
+    }
+}
